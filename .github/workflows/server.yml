@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - src/server/**
 
 env:
   PROJECT_ID: ${{ secrets.GCR_PROJECT_ID }}
