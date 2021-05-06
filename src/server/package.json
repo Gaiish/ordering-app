@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only .",
-    "start": "tsc & node .",
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/",
+    "start": "tsc & node dist/",
     "build": "tsc",
     "test": "echo testing"
   },
