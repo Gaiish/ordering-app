@@ -9,6 +9,11 @@ env:
   PROJECT_NAME: orderingapp-backend
   RUN_REGION: europe-central2
   SA_KEY_JSON: ${{ secrets.GCR_SA_KEY_JSON }}
+  FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+  FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+  FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+  FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+
 jobs:
   deploy:
     name: Deploy to Cloud Run
@@ -28,4 +33,10 @@ jobs:
         run: cd src/server && gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_NAME
 
       - name: Deploy
-        run: cd src/server && gcloud run deploy $PROJECT_NAME --image gcr.io/$PROJECT_ID/$PROJECT_NAME --platform managed --region $RUN_REGION
+        run: |
+          touch src/server/.env
+          echo FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID >> src/server/.env
+          echo FIREBASE_PRIVATE_KEY=$FIREBASE_PRIVATE_KEY >> src/server/.env
+          echo FIREBASE_CLIENT_EMAIL=$FIREBASE_CLIENT_EMAIL >> src/server/.env
+          echo FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL >> src/server/.env
+          cd src/server && gcloud run deploy $PROJECT_NAME --image gcr.io/$PROJECT_ID/$PROJECT_NAME --platform managed --region $RUN_REGION
