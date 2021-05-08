@@ -12,7 +12,7 @@ export const getAllOrders = async (): Promise<IOrders> => {
       orders = [...orders, (doc.data() as unknown) as IOrder];
     });
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
   return orders;
 };
@@ -24,7 +24,7 @@ export const createOrder = async (
     const { id } = await ordersColl.add(order);
     return id;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -36,9 +36,9 @@ export const getOrderById = async (
     if (doc.exists) {
       return (doc.data() as unknown) as IOrder;
     }
-    console.log('No such doc');
+    throw new Error('Order does not exist');
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -49,6 +49,6 @@ export const updateOrder = async (
   try {
     await ordersColl.doc(orderId).update(data);
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
