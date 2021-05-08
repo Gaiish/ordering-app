@@ -6,8 +6,11 @@ import {
   updateOrder,
 } from '../services/orders.service';
 import { IOrder, IOrders } from '../models/order';
+import verifyAuthorization from '../middlewares/authorization';
 
 const ordersRouter = express.Router();
+
+ordersRouter.use(verifyAuthorization);
 
 ordersRouter.get('/', async (_, res) => {
   try {
