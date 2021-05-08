@@ -1,5 +1,5 @@
 import firebase from '../config/firebase';
-import { IOrder, IOrders } from '../models/order';
+import { INewOrder, IOrder, IOrders } from '../models/order';
 
 const firestore = firebase.firestore();
 const ordersColl = firestore.collection('orders');
@@ -18,7 +18,7 @@ export const getAllOrders = async (): Promise<IOrders> => {
 };
 
 export const createOrder = async (
-  order: IOrder,
+  order: INewOrder,
 ): Promise<string | undefined> => {
   try {
     const { id } = await ordersColl.add(order);

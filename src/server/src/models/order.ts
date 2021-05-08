@@ -19,4 +19,6 @@ export interface IOrder {
   uid: string;
 }
 
+export type INewOrder = Omit<IOrder, 'uid'>;
+
 export type IOrders = Array<IOrder>;
