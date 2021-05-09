@@ -30,13 +30,13 @@ jobs:
 
       # Build and push image to Google Container Registry
       - name: Build
-        run: cd src/server && gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_NAME
-
-      - name: Deploy
         run: |
           touch src/server/.env
           echo FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID >> src/server/.env
           echo FIREBASE_PRIVATE_KEY=$FIREBASE_PRIVATE_KEY >> src/server/.env
           echo FIREBASE_CLIENT_EMAIL=$FIREBASE_CLIENT_EMAIL >> src/server/.env
           echo FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL >> src/server/.env
-          cd src/server && gcloud run deploy $PROJECT_NAME --image gcr.io/$PROJECT_ID/$PROJECT_NAME --platform managed --region $RUN_REGION
+          cd src/server && gcloud builds submit --tag gcr.io/$PROJECT_ID/$PROJECT_NAME
+
+      - name: Deploy
+        run: cd src/server && gcloud run deploy $PROJECT_NAME --image gcr.io/$PROJECT_ID/$PROJECT_NAME --platform managed --region $RUN_REGION
