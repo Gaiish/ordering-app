@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install server dependencies
         run: cd src/server && yarn install
-      _ name: Install client dependencies
+      - name : Install client dependencies
         run: cd src/client && yarn install
       - name: Run tests
         run: cd src/server && yarn test
