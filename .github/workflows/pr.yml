@@ -20,10 +20,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install server dependencies
+      - name: Install dependencies - server
         run: cd src/server && yarn install
-      - name : Install client dependencies
+
+      - name: Install dependencies - client
         run: cd src/client && yarn install
-      - name: Run tests
+
+      - name: Run tests - server
         run: cd src/server && yarn test
+
+      - name: Run tests - client
         run: cd src/client && yarn test
