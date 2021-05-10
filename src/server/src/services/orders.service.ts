@@ -9,7 +9,9 @@ export const getAllOrders = async (): Promise<IOrders> => {
   try {
     const snapshot = await ordersColl.get(); // could add pagination
     snapshot.forEach((doc) => {
-      orders = [...orders, (doc.data() as unknown) as IOrder];
+      if (doc.data().uid) {
+        orders = [...orders, (doc.data() as unknown) as IOrder];
+      }
     });
   } catch (error) {
     throw new Error(error);
@@ -22,6 +24,7 @@ export const createOrder = async (
 ): Promise<string | undefined> => {
   try {
     const { id } = await ordersColl.add(order);
+    await ordersColl.doc(id).update({ uid: id });
     return id;
   } catch (error) {
     throw new Error(error);
