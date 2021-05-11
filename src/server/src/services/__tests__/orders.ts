@@ -17,8 +17,8 @@ describe('orders service', () => {
     const order: IOrder | undefined = await getOrderById(orderId);
 
     expect(order).toEqual({
-      title: 'New Test service here',
-      bookingDate: 1620455734036,
+      title: 'UPDATED TITLE',
+      bookingDate: 1554284950000,
     });
   });
 
