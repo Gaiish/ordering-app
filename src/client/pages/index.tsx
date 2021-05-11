@@ -1,17 +1,10 @@
-import styled from 'styled-components';
-
-// import firebase from '../config/firebase';
-
-const Container = styled.div`
-  display: flexbox;
-  justify-content: center;
-  align-items: center;
-`;
+import Container from '../components/Container';
+import Spinner from '../components/Spinner';
 
 export default function Home() {
   return (
-    <Container>
-      <h1>Welcome to the Ordering App</h1>
+    <Container centerContent>
+      <Spinner />
     </Container>
   );
 }

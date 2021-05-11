@@ -1,14 +1,16 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase from '../config/firebase';
 
-import Button from '../components/Button';
 import Container from '../components/Container';
+import Button from '../components/Button';
 import Input from '../components/Input';
-import { Title1 } from '../styles/typography';
-
+import Spinner from '../components/Spinner';
+import { Body2, Title1 } from '../styles/typography';
+import colors from '../styles/colors';
+import { persistToLS, retrieveFromLS } from '../utils/localStorage';
 interface FormValues {
   email: string;
   password: string;
@@ -18,33 +20,51 @@ const LoginTitle = styled.h1`
   ${Title1}
 `;
 
+const ErrorText = styled.p`
+  color: ${colors.danger};
+  opacity: 0.8;
+  ${Body2};
+`;
+
 const formValidationSchema = Yup.object().shape({
-  email: Yup.string().email().required('Email is required'),
+  email: Yup.string()
+    .email('Email must be a valid email')
+    .required('Email is required'),
   password: Yup.string().min(8).required('Password is required'),
 });
 
 const Login = () => {
+  const [errorMsg, setErrorMsg] = useState(null);
   const initialValues: FormValues = {
     email: '',
     password: '',
   };
 
-  const onSubmit = (values, { setSubmitting }) => {
+  const getUserDetails = useCallback(async (user: firebase.User) => {
+    const firestore = firebase.firestore();
+    const { uid } = user;
+    try {
+      const userDoc = await firestore.doc(uid).get();
+      persistToLS(`oa-customer-${uid}`, userDoc.data());
+    } catch (error) {}
+  }, []);
+
+  const onSubmit = useCallback(async (values, { setSubmitting }) => {
     const { email, password } = values;
-    console.log(email, password);
+    setErrorMsg(null);
 
     const auth = firebase.auth();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('[logged in]');
-      })
-      .catch((err) => {
-        console.log('[login failed]');
-        console.log(err);
-      });
-    setSubmitting(false);
-  };
+    try {
+      const { user } = await auth.signInWithEmailAndPassword(email, password);
+      if (!retrieveFromLS(`@oa-customer-${user.uid}`)) {
+        await getUserDetails(user);
+      }
+      setSubmitting(false);
+    } catch (error) {
+      setErrorMsg('Email or password is wrong');
+      setSubmitting(false);
+    }
+  }, []);
 
   return (
     <Container centerContent>
@@ -71,7 +91,9 @@ const Login = () => {
               onBlur={handleBlur}
               value={values.email}
             />
-            <div>{errors.email && touched.email && errors.email}</div>
+            <ErrorText>
+              {errors.email && touched.email && errors.email}
+            </ErrorText>
             <Input
               label="Password"
               type="password"
@@ -80,7 +102,11 @@ const Login = () => {
               onBlur={handleBlur}
               value={values.password}
             />
-            <div>{errors.password && touched.password && errors.password}</div>
+            <ErrorText>
+              {errors.password && touched.password && errors.password}
+            </ErrorText>
+            <ErrorText>{errorMsg}</ErrorText>
+            {isSubmitting && <Spinner />}
             <Button variant="primary" disabled={isSubmitting} type="submit">
               Log in
             </Button>
