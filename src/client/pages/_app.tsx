@@ -1,4 +1,5 @@
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import { AuthProvider } from '../hooks/useUser';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -7,22 +8,19 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2c2c2c;
   }
 `;
-
-const theme = {
-  colors: {
-    primary: '#0070f3',
-  },
-};
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
+      <AuthProvider>
         <Component {...pageProps} />
-      </ThemeProvider>
+      </AuthProvider>
     </>
   );
 }

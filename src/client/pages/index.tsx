@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
-import Head from 'next/head';
 import styled from 'styled-components';
 
-import firebase from '../config/firebase';
+// import firebase from '../config/firebase';
 
 const Container = styled.div`
   display: flexbox;
@@ -11,20 +9,9 @@ const Container = styled.div`
 `;
 
 export default function Home() {
-  useEffect(() => {
-    console.log('[firebase]');
-    console.log(firebase);
-  });
   return (
-    <>
-      <Head>
-        <title>Ordering App</title>
-        <meta name="description" content="Ordering app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container>
-        <h1>Welcome to the Ordering App</h1>
-      </Container>
-    </>
+    <Container>
+      <h1>Welcome to the Ordering App</h1>
+    </Container>
   );
 }

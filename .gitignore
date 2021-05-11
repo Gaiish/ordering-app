@@ -35,3 +35,4 @@
 **/.vercel
 
 **/dist
+.vercel
