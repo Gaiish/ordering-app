@@ -1,16 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Body1 } from '../../styles/typography';
 import colors from '../../styles/colors';
 
-const Button = styled.button<{ variant: string }>`
-  background-color: ${({ variant }) => colors[variant]};
+interface ButtonProps {
+  variant?: 'primary' | 'danger' | 'orange';
+  size?: number;
+}
+
+const Button = styled.button<ButtonProps>`
+  background-color: ${({ variant }) =>
+    variant ? colors[variant] : colors.gray};
   ${Body1};
   font-size: 16px;
-  color: #fff;
+  ${({ variant }) =>
+    variant &&
+    css`
+      color: #fff;
+    `};
   border: none;
   border-radius: 5px;
   padding: 0.8em;
-  width: 300px;
+  width: ${({ size }) => (size ? `${size}px` : `300px`)};
   margin: 0.5em;
   outline: none;
   cursor: pointer;

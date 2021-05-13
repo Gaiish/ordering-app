@@ -7,7 +7,8 @@
       "FIREBASE_PROJECT_ID": "@oa-firebase-project-id",
       "FIREBASE_STORAGE_BUCKET": "@oa-firebase-storage-bucket",
       "FIREBASE_MESSAGING_SENDER_ID": "@oa-firebase-messaging-sender-id",
-      "FIREBASE_APP_ID": "@oa-firebase-app-id"
+      "FIREBASE_APP_ID": "@oa-firebase-app-id",
+      "BACKEND_API_URL": "@backend_api_url"
     }
   }
 }
