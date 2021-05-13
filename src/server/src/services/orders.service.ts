@@ -7,7 +7,9 @@ const ordersColl = firestore.collection('orders');
 export const getAllOrders = async (): Promise<IOrders> => {
   let orders: IOrders = [];
   try {
-    const snapshot = await ordersColl.get(); // could add pagination
+    const query = ordersColl.orderBy('bookingDate', 'desc').limit(15); // could add pagination
+    const snapshot = await query.get();
+
     snapshot.forEach((doc) => {
       if (doc.data().uid) {
         orders = [...orders, (doc.data() as unknown) as IOrder];
