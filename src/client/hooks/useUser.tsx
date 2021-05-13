@@ -1,12 +1,30 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 
 import Container from '../components/Container';
 import Spinner from '../components/Spinner';
 
 import firebase from '../config/firebase';
+import { persistToLS, retrieveFromLS } from '../utils/localStorage';
 
-const defaultAuthContextValue = {
+interface IAuthContext {
+  user: firebase.User;
+}
+
+export interface IUserDetails {
+  name: string;
+  email: string;
+  phone: string;
+  uid: string;
+}
+
+const defaultAuthContextValue: IAuthContext = {
   user: null,
 };
 
@@ -17,12 +35,30 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const getUserDetails = useCallback(async (user: firebase.User) => {
+    const firestore = firebase.firestore();
+    const { uid } = user;
+    try {
+      const userDoc = await firestore.collection('users').doc(uid).get();
+
+      persistToLS(
+        `oa-customer-${uid}`,
+        (userDoc.data() as unknown) as IUserDetails,
+      );
+    } catch (error) {
+      console.log('Failed to retrieve user info');
+    }
+  }, []);
+
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((usr) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (usr) => {
       if (usr) {
         setUser(usr);
+        if (!retrieveFromLS(`@oa-customer-${usr.uid}`)) {
+          await getUserDetails(usr);
+        }
         setIsLoading(false);
-        router.push('/orders');
+        router.replace('/orders');
       } else {
         setIsLoading(false);
         router.replace('/login');

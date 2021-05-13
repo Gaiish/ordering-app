@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { ModalProvider } from 'styled-react-modal';
 import { AuthProvider } from '../hooks/useUser';
 
 const GlobalStyle = createGlobalStyle`
@@ -19,7 +20,9 @@ function MyApp({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <AuthProvider>
-        <Component {...pageProps} />
+        <ModalProvider>
+          <Component {...pageProps} />
+        </ModalProvider>
       </AuthProvider>
     </>
   );
