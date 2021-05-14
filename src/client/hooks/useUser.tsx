@@ -14,7 +14,7 @@ import firebase from '../config/firebase';
 import { persistToLS, retrieveFromLS } from '../utils/localStorage';
 
 interface IAuthContext {
-  user: firebase.User;
+  user: firebase.User | null;
 }
 
 export interface IUserDetails {
