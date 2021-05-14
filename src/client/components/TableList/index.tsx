@@ -30,7 +30,7 @@ const TabHeading = styled.div`
   padding: 6px;
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 240px;
   font-weight: bold;
   opacity: 0.7;
 `;
@@ -51,7 +51,7 @@ const TabRowItem = styled.div`
   ${Body2};
   padding: 20px 6px;
   align-items: center;
-  width: 200px;
+  width: 240px;
 `;
 
 const ItemWithAvatar = ({ itemName }: { itemName: string }) => (
