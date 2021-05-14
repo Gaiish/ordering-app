@@ -1,3 +1,4 @@
+import { AppProps } from 'next/app';
 import { createGlobalStyle } from 'styled-components';
 import { ModalProvider } from 'styled-react-modal';
 import { AuthProvider } from '../hooks/useUser';
@@ -15,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyle />

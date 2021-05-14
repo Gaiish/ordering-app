@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import Image from 'next/image';
+import Link from 'next/link';
 
-import colors from '../../styles/colors';
 import { Body1, Heading2 } from '../../styles/typography';
 
 interface HeaderProps {
@@ -10,7 +9,7 @@ interface HeaderProps {
 
 const Container = styled.div`
   height: 60px;
-  background-color: ${colors.primary};
+  background-color: #fff;
   width: 100%;
   padding: 0 26px;
   position: fixed;
@@ -18,17 +17,21 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  -webkit-box-shadow: 0 6px 6px -6px #777;
-  -moz-box-shadow: 0 6px 6px -6px #777;
-  box-shadow: 0 6px 6px -6px #777;
+  -webkit-box-shadow: 0 3px 3px -3px #777;
+  -moz-box-shadow: 0 3px 3px -3px #777;
+  box-shadow: 0 3px 3px -3px #777;
 `;
 
 const LeftSection = styled.div``;
 
-const AppName = styled.h1`
+const AppName = styled.a`
   ${Heading2};
   font-size: 16px;
-  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const RightSection = styled.div`
@@ -44,7 +47,6 @@ const UserAvatar = styled.img`
 
 const UserName = styled.h1`
   ${Body1};
-  color: #fff;
   margin-left: 10px;
   opacity: 0.7;
 `;
@@ -53,7 +55,9 @@ const Header = ({ username }: HeaderProps) => {
   return (
     <Container>
       <LeftSection>
-        <AppName>ORDERING APP</AppName>
+        <Link href="/">
+          <AppName>ORDERING APP</AppName>
+        </Link>
       </LeftSection>
       <RightSection>
         <UserAvatar

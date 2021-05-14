@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import colors from '../../styles/colors';
+
+import Avatar from '../Avatar';
 import { Body1, Body2 } from '../../styles/typography';
 
 interface TabHeadProps {
@@ -59,27 +60,6 @@ const ItemWithAvatar = ({ itemName }: { itemName: string }) => (
     <span>{itemName}</span>
   </TabRowItem>
 );
-
-const AvatarContainer = styled.div`
-  display: flex;
-  height: 32px;
-  width: 32px;
-  border-radius: 16px;
-  align-items: center;
-  justify-content: center;
-  background-color: ${colors.orange};
-  margin-right: 8px;
-  margin-left: 4px;
-  color: #fff;
-`;
-
-const Avatar = ({ itemName }: { itemName: string }) => {
-  const splitName = itemName.split(' ');
-  const initials =
-    splitName.length > 1 ? splitName[0][0] + splitName[1][0] : splitName[0][0];
-
-  return <AvatarContainer>{initials}</AvatarContainer>;
-};
 
 export const TabHead = ({ headings }: TabHeadProps) => (
   <TabHeadContainer>

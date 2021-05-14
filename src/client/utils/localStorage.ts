@@ -1,10 +1,8 @@
-import { IUserDetails } from '../hooks/useUser';
-
-export const persistToLS = (key: string, value: IUserDetails) => {
+export const persistToLS = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const retrieveFromLS = (key: string): IUserDetails | null => {
+export const retrieveFromLS = (key: string) => {
   const data = localStorage.getItem(key);
   if (!data) {
     return null;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 
 import useUser from '../../hooks/useUser';
 import Header from '../../components/Header';
@@ -14,6 +15,7 @@ import OrderModal from '../../components/OrderModal';
 
 import { Heading1 } from '../../styles/typography';
 import { retrieveFromLS } from '../../utils/localStorage';
+import retrieveIdToken from '../../utils/retrieveIdToken';
 
 type OrderList = Array<{
   orderId: string;
@@ -36,13 +38,13 @@ const Title = styled.h1`
 `;
 
 const Orders = () => {
-  const [orders, setOrders] = useState<OrderList>(null);
+  const [orders, setOrders] = useState<OrderList | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useUser();
 
   const userDetails = useMemo(
-    () => user && retrieveFromLS(`oa-customer-${user.uid}`),
+    () => user && retrieveFromLS(`oa-user-${user.uid}`),
     [],
   );
 
@@ -54,7 +56,7 @@ const Orders = () => {
     (async () => {
       if (user) {
         try {
-          const idToken = await user.getIdToken();
+          const idToken = await retrieveIdToken(user);
           const { data } = await getOrders({ authToken: idToken });
           setOrders(formatOrdersList(data));
           setIsLoading(false);
@@ -77,9 +79,12 @@ const Orders = () => {
             orderId: listOfOrders[i].uid,
             data: [
               listOfOrders[i].customer.name,
-              listOfOrders[i].address.city,
+              listOfOrders[i].address.street,
               listOfOrders[i].title,
-              JSON.stringify(listOfOrders[i].bookingDate),
+              format(
+                new Date(Number(listOfOrders[i].bookingDate)),
+                'dd.MM.yyyy',
+              ),
             ],
           },
         ];

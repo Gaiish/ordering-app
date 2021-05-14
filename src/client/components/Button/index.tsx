@@ -19,13 +19,15 @@ const Button = styled.button<ButtonProps>`
     `};
   border: none;
   border-radius: 5px;
-  padding: 0.8em;
+  padding: 0.4em 0.8em;
   width: ${({ size }) => (size ? `${size}px` : `300px`)};
   margin: 0.5em;
   outline: none;
   cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   &:hover {
     opacity: 0.95;
+    box-shadow: none;
   }
 `;
 

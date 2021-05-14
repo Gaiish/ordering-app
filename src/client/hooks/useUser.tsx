@@ -1,5 +1,6 @@
 import {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -14,7 +15,7 @@ import firebase from '../config/firebase';
 import { persistToLS, retrieveFromLS } from '../utils/localStorage';
 
 interface IAuthContext {
-  user: firebase.User;
+  user: firebase.User | null;
 }
 
 export interface IUserDetails {
@@ -30,8 +31,8 @@ const defaultAuthContextValue: IAuthContext = {
 
 const AuthContext = createContext(defaultAuthContextValue);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<firebase.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await firestore.collection('users').doc(uid).get();
 
       persistToLS(
-        `oa-customer-${uid}`,
+        `oa-user-${uid}`,
         (userDoc.data() as unknown) as IUserDetails,
       );
     } catch (error) {
@@ -54,11 +55,11 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = firebase.auth().onAuthStateChanged(async (usr) => {
       if (usr) {
         setUser(usr);
-        if (!retrieveFromLS(`@oa-customer-${usr.uid}`)) {
+        if (!retrieveFromLS(`@oa-user-${usr.uid}`)) {
           await getUserDetails(usr);
         }
         setIsLoading(false);
-        router.replace('/orders');
+        // router.replace('/orders');
       } else {
         setIsLoading(false);
         router.replace('/login');
