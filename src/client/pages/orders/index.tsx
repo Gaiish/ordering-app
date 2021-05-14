@@ -38,7 +38,7 @@ const Title = styled.h1`
 `;
 
 const Orders = () => {
-  const [orders, setOrders] = useState<OrderList>(null);
+  const [orders, setOrders] = useState<OrderList | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useUser();

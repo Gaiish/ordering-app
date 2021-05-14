@@ -28,7 +28,7 @@ const formValidationSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const initialValues: FormValues = {
     email: '',
     password: '',

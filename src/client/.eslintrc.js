@@ -7,6 +7,9 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
     'prettier/@typescript-eslint',
     'prettier/react',
@@ -19,7 +22,15 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: [
+    'react',
+    '@typescript-eslint',
+    'jsx-a11y',
+    'eslint-plugin-react',
+    'import',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+  ],
   rules: {
     'react/jsx-uses-react': 1,
     'react/jsx-uses-vars': 1,
@@ -28,5 +39,7 @@ module.exports = {
     'import/order': 0,
     'import/no-named-as-default': 0,
     'max-classes-per-file': 0,
+    'prettier/prettier': 'error',
+    'no-unused-vars': 'warn',
   },
 };

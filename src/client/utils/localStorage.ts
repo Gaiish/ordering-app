@@ -1,4 +1,4 @@
-export const persistToLS = (key: string, value) => {
+export const persistToLS = (key: string, value: any) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 

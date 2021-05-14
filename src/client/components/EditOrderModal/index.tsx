@@ -42,20 +42,22 @@ const EditOrderModal = ({
   const save = async () => {
     setIsLoading(true);
     const bookingDate: number = date.getTime();
-    if (title.length > 0 || currentOrder.bookingDate !== bookingDate) {
-      const { uid } = currentOrder;
-      try {
-        const idToken = await retrieveIdToken(user);
-        const res = await updateOrder({ title, bookingDate }, uid, {
-          authToken: idToken,
-        });
-        if (res.status === 200) {
+    if (user) {
+      if (title.length > 0 || currentOrder.bookingDate !== bookingDate) {
+        const { uid } = currentOrder;
+        try {
+          const idToken = await retrieveIdToken(user);
+          const res = await updateOrder({ title, bookingDate }, uid, {
+            authToken: idToken,
+          });
+          if (res.status === 200) {
+            setIsLoading(false);
+            setOrderUpdateSuccess(true);
+          }
+        } catch (error) {
           setIsLoading(false);
-          setOrderUpdateSuccess(true);
+          console.log(error);
         }
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
       }
     }
   };

@@ -83,14 +83,14 @@ const IconTextSection = styled.div`
   ${Body1};
   align-items: center;
   padding: 0 5px 0 5px;
-  width: 30%;
+  width: 40%;
   justify-content: space-evenly;
   margin: 4px 0;
 `;
 
 const OrderDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [order, setOrder] = useState<IOrder>(null);
+  const [order, setOrder] = useState<IOrder | null>(null);
   const { user } = useUser();
   const router = useRouter();
   const { id } = router.query;

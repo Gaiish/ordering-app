@@ -83,25 +83,29 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
         street,
         zip,
       };
-      const { name, email, phone } = retrieveFromLS(`oa-customer-${user.uid}`);
-      const customer: ICustomer = { name, email, phone };
-      const newOrder: INewOrder = {
-        address,
-        bookingDate,
-        customer,
-        title,
-      };
+      if (user) {
+        const { name, email, phone } = retrieveFromLS(
+          `oa-customer-${user.uid}`,
+        );
+        const customer: ICustomer = { name, email, phone };
+        const newOrder: INewOrder = {
+          address,
+          bookingDate,
+          customer,
+          title,
+        };
 
-      try {
-        const authToken = await retrieveIdToken(user);
-        const res = await createOrder(newOrder, { authToken });
-        if (res.status === 201) {
-          setOrderCreationSuccess(true);
+        try {
+          const authToken = await retrieveIdToken(user);
+          const res = await createOrder(newOrder, { authToken });
+          if (res.status === 201) {
+            setOrderCreationSuccess(true);
+          }
+          setIsSubmitting(false);
+        } catch (error) {
+          setIsSubmitting(false);
+          console.log(error);
         }
-        setIsSubmitting(false);
-      } catch (error) {
-        setIsSubmitting(false);
-        console.log(error);
       }
     },
     [],
