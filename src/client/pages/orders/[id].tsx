@@ -96,7 +96,7 @@ const OrderDetails = () => {
   const { id } = router.query;
 
   const userDetails: IUserDetails = useMemo(
-    () => user && retrieveFromLS(`oa-customer-${user.uid}`),
+    () => user && retrieveFromLS(`oa-user-${user.uid}`),
     [],
   );
 
@@ -137,7 +137,7 @@ const OrderDetails = () => {
         <Title>Order Details</Title>
       </TitleSection>
       <Main>
-        {!order || (!order && <Spinner />)}
+        {!order && <Spinner />}
         {order && (
           <>
             <CustomerSection>
