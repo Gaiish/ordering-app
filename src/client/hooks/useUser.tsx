@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           await getUserDetails(usr);
         }
         setIsLoading(false);
-        // router.replace('/orders');
+        router.replace('/');
       } else {
         setIsLoading(false);
         router.replace('/login');
