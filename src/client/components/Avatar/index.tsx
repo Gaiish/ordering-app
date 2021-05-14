@@ -6,7 +6,7 @@ interface AvatarProps {
   size?: number;
 }
 
-const AvatarContainer = styled.div<{ size: number }>`
+const AvatarContainer = styled.div<{ size?: number }>`
   display: flex;
   height: ${({ size }) => (size ? `${size * 20}px` : `32px`)};
   width: ${({ size }) => (size ? `${size * 20}px` : `32px`)};
