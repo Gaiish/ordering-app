@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { ForwardedRef, forwardRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { Body1, Body2 } from '../../styles/typography';
 import colors from '../../styles/colors';
@@ -37,7 +37,7 @@ const Label = styled.span`
 
 const InputComponent = (
   { label, length, placeholder, type, ...rest }: InputProps,
-  ref,
+  ref: ForwardedRef<HTMLInputElement>,
 ) => (
   <InputContainer length={length}>
     {label && <Label>{label}</Label>}

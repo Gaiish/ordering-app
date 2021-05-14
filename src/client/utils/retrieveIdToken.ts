@@ -7,8 +7,6 @@ interface PersistedTokenObj {
 }
 
 /**
- *
- *
  * Checks if token in localstorage and if not expired then returns it
  * or makes a request for a new token then persists it.
  */
