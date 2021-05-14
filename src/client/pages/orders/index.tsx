@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 
 import useUser from '../../hooks/useUser';
 import Header from '../../components/Header';
@@ -78,9 +79,12 @@ const Orders = () => {
             orderId: listOfOrders[i].uid,
             data: [
               listOfOrders[i].customer.name,
-              listOfOrders[i].address.city,
+              listOfOrders[i].address.street,
               listOfOrders[i].title,
-              JSON.stringify(listOfOrders[i].bookingDate),
+              format(
+                new Date(Number(listOfOrders[i].bookingDate)),
+                'dd.MM.yyyy',
+              ),
             ],
           },
         ];
@@ -110,14 +114,6 @@ const Orders = () => {
         <TableList>
           <TabHead
             headings={['Customer', 'Address', 'Order title', 'Booking Date']}
-          />
-          <TabRow
-            items={['Customer A', 'Address', 'Order title', 'Booking Date']}
-            orderId={'1'}
-          />
-          <TabRow
-            items={['Customer B', 'Address', 'Order title', 'Booking Date']}
-            orderId={'2'}
           />
           <div>
             {isLoading && <Spinner />}

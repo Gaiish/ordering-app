@@ -8,11 +8,9 @@ interface PersistedTokenObj {
 
 /**
  *
- * @param user firebase.User
- * @returns Promise<string>
  *
  * Checks if token in localstorage and if not expired then returns it
- * or calls requests a new token then persists it
+ * or makes a request for a new token then persists it.
  */
 
 const retrieveIdToken = async (user: firebase.User): Promise<string> => {

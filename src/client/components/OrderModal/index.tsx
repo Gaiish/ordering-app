@@ -14,8 +14,10 @@ import Button from '../Button';
 import Input from '../Input';
 import ErrorText from '../ErrorText';
 import Spinner from '../Spinner';
+import Success from '../Success';
 
 import { Heading1 } from '../../styles/typography';
+import retrieveIdToken from '../../utils/retrieveIdToken';
 
 interface OrderModalProps {
   isModalOpen: boolean;
@@ -91,7 +93,7 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
       };
 
       try {
-        const authToken = await user.getIdToken();
+        const authToken = await retrieveIdToken(user);
         const res = await createOrder(newOrder, { authToken });
         if (res.status === 201) {
           setOrderCreationSuccess(true);
@@ -110,93 +112,101 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
       isOpen={isModalOpen}
       onBackgroundClick={toggleModal}
       onEscapeKeydown={toggleModal}>
-      <ModalTitle>New Order</ModalTitle>
+      {orderCreationSuccess && <Success />}
 
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={formValidationSchema}>
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Input
-              label="Title"
-              placeholder="Order title"
-              name="title"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.title}
-            />
-            <ErrorText>
-              {errors.title && touched.title && errors.title}
-            </ErrorText>
-            <Input
-              label="Country"
-              placeholder="Country"
-              name="country"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.country}
-            />
-            <ErrorText>
-              {errors.country && touched.country && errors.country}
-            </ErrorText>
-            <Input
-              label="City"
-              placeholder="City"
-              name="city"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.city}
-            />
-            <ErrorText>{errors.city && touched.city && errors.city}</ErrorText>
-            <Input
-              label="Street"
-              placeholder="Street"
-              name="street"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.street}
-            />
-            <ErrorText>
-              {errors.street && touched.street && errors.street}
-            </ErrorText>
-            <Input
-              label="Zip"
-              placeholder="Zip"
-              name="zip"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.zip}
-            />
-            <ErrorText>{errors.zip && touched.zip && errors.zip}</ErrorText>
+      {!orderCreationSuccess && (
+        <>
+          <ModalTitle>New Order</ModalTitle>
 
-            <DatePicker
-              selected={date}
-              onChange={(d) => setDate((d as unknown) as Date)}
-              customInput={<Input label="Booking Date" />}
-            />
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={formValidationSchema}>
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <Input
+                  label="Title"
+                  placeholder="Order title"
+                  name="title"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.title}
+                />
+                <ErrorText>
+                  {errors.title && touched.title && errors.title}
+                </ErrorText>
+                <Input
+                  label="Country"
+                  placeholder="Country"
+                  name="country"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.country}
+                />
+                <ErrorText>
+                  {errors.country && touched.country && errors.country}
+                </ErrorText>
+                <Input
+                  label="City"
+                  placeholder="City"
+                  name="city"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.city}
+                />
+                <ErrorText>
+                  {errors.city && touched.city && errors.city}
+                </ErrorText>
+                <Input
+                  label="Street"
+                  placeholder="Street"
+                  name="street"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.street}
+                />
+                <ErrorText>
+                  {errors.street && touched.street && errors.street}
+                </ErrorText>
+                <Input
+                  label="Zip"
+                  placeholder="Zip"
+                  name="zip"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.zip}
+                />
+                <ErrorText>{errors.zip && touched.zip && errors.zip}</ErrorText>
 
-            {isSubmitting && <Spinner />}
+                <DatePicker
+                  selected={date}
+                  onChange={(d) => setDate((d as unknown) as Date)}
+                  customInput={<Input label="Booking Date" />}
+                />
 
-            <ButtonGroup>
-              <Button onClick={toggleModal} size={100}>
-                Cancel
-              </Button>
-              <Button variant="primary" size={100} type="submit">
-                Confirm
-              </Button>
-            </ButtonGroup>
-          </form>
-        )}
-      </Formik>
+                {isSubmitting && <Spinner />}
+
+                <ButtonGroup>
+                  <Button onClick={toggleModal} size={100}>
+                    Cancel
+                  </Button>
+                  <Button variant="primary" size={100} type="submit">
+                    Confirm
+                  </Button>
+                </ButtonGroup>
+              </form>
+            )}
+          </Formik>
+        </>
+      )}
     </Container>
   );
 };

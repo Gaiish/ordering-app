@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
-import { Calendar2Date, Map } from '@styled-icons/bootstrap/';
+import { Calendar2Date, GeoAlt } from '@styled-icons/bootstrap/';
+import { format } from 'date-fns';
 
-import useUser from '../../hooks/useUser';
+import useUser, { IUserDetails } from '../../hooks/useUser';
 
 import { retrieveFromLS } from '../../utils/localStorage';
 import Container from '../../components/Container';
@@ -94,7 +95,7 @@ const OrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const userDetails = useMemo(
+  const userDetails: IUserDetails = useMemo(
     () => user && retrieveFromLS(`oa-customer-${user.uid}`),
     [],
   );
@@ -108,10 +109,11 @@ const OrderDetails = () => {
       if (user) {
         try {
           const idToken = await retrieveIdToken(user);
-          const orderDetails = await getOrderById((id as unknown) as string, {
+          const { data } = await getOrderById((id as unknown) as string, {
             authToken: idToken,
           });
-          setOrder((orderDetails as unknown) as IOrder);
+
+          setOrder(data);
         } catch (error) {
           console.log('[error]');
           console.log(error);
@@ -122,7 +124,7 @@ const OrderDetails = () => {
 
   if (!user) {
     return (
-      <Container>
+      <Container centerContent>
         <Spinner />
       </Container>
     );
@@ -135,39 +137,53 @@ const OrderDetails = () => {
         <Title>Order Details</Title>
       </TitleSection>
       <Main>
-        <CustomerSection>
-          <Card>
-            <Avatar itemName="John Doe" size={5} />
-            <Text bold>John Doe</Text>
-            <Text>john@gmail.com</Text>
-            <Text>+256 75 000 000</Text>
-            <TagText>Customer</TagText>
-          </Card>
-        </CustomerSection>
-        <DetailsSection>
-          <Card>
-            <Text bold>Title order</Text>
-            <br />
-            <IconTextSection>
-              <Calendar2Date size={50} />
-              <Text>14.05.2021</Text>
-            </IconTextSection>
-            <IconTextSection>
-              <Map size={40} />
-              <div>
-                <Text>Street</Text>
-                <Text>City</Text>
-                <Text>Country</Text>
-              </div>
-            </IconTextSection>
+        {!order || (!order && <Spinner />)}
+        {order && (
+          <>
+            <CustomerSection>
+              <Card>
+                <Avatar itemName={order.customer.name} size={5} />
+                <Text bold>{order.customer.name}</Text>
+                <Text>{order.customer.email}</Text>
+                <Text>{order.customer.phone}</Text>
+                <TagText>Customer</TagText>
+              </Card>
+            </CustomerSection>
+            <DetailsSection>
+              <Card>
+                <Text bold>{order.title}</Text>
+                <br />
+                <IconTextSection>
+                  <Calendar2Date color={colors.primary} size={50} />
+                  <Text>
+                    {format(new Date(Number(order.bookingDate)), 'dd.MM.yyyy')}
+                  </Text>
+                </IconTextSection>
+                <IconTextSection>
+                  <GeoAlt color={colors.primary} size={40} />
+                  <div>
+                    <Text bold>{order.address.street}</Text>
+                    <Text>{order.address.city}</Text>
+                    <Text>{order.address.country}</Text>
+                  </div>
+                </IconTextSection>
 
-            <Button onClick={toggleModal} size={90}>
-              Edit
-            </Button>
-          </Card>
-        </DetailsSection>
+                <Button onClick={toggleModal} size={90}>
+                  Edit
+                </Button>
+              </Card>
+            </DetailsSection>
+          </>
+        )}
       </Main>
-      <EditOrderModal isModalOpen={isModalOpen} toggleModal={toggleModal} />
+
+      {order && (
+        <EditOrderModal
+          isModalOpen={isModalOpen}
+          toggleModal={toggleModal}
+          currentOrder={order}
+        />
+      )}
     </Container>
   );
 };
