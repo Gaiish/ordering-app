@@ -84,9 +84,7 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
         zip,
       };
       if (user) {
-        const { name, email, phone } = retrieveFromLS(
-          `oa-customer-${user.uid}`,
-        );
+        const { name, email, phone } = retrieveFromLS(`oa-user-${user.uid}`);
         const customer: ICustomer = { name, email, phone };
         const newOrder: INewOrder = {
           address,
