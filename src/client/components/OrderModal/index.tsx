@@ -4,6 +4,7 @@ import Modal from 'styled-react-modal';
 import DatePicker from 'react-datepicker';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import useUser from '../../hooks/useUser';
 import { IAddress, ICustomer, INewOrder } from '../../utils/app-types';
@@ -15,7 +16,6 @@ import ErrorText from '../ErrorText';
 import Spinner from '../Spinner';
 
 import { Heading1 } from '../../styles/typography';
-import 'react-datepicker/dist/react-datepicker.css';
 
 interface OrderModalProps {
   isModalOpen: boolean;

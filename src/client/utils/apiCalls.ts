@@ -49,3 +49,16 @@ export const updateOrder = async (
     },
   });
 };
+
+export const getOrderById = async (
+  orderId: string,
+  { authToken }: requestConfig,
+): Promise<AxiosResponse> => {
+  const res = await axios.get(`${BACKEND_API_URL}/orders/${orderId}`, {
+    headers: {
+      ...headersConfig,
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  return res.data;
+};

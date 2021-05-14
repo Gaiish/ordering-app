@@ -14,6 +14,7 @@ import OrderModal from '../../components/OrderModal';
 
 import { Heading1 } from '../../styles/typography';
 import { retrieveFromLS } from '../../utils/localStorage';
+import retrieveIdToken from '../../utils/retrieveIdToken';
 
 type OrderList = Array<{
   orderId: string;
@@ -42,7 +43,7 @@ const Orders = () => {
   const { user } = useUser();
 
   const userDetails = useMemo(
-    () => user && retrieveFromLS(`oa-customer-${user.uid}`),
+    () => user && retrieveFromLS(`oa-user-${user.uid}`),
     [],
   );
 
@@ -54,7 +55,7 @@ const Orders = () => {
     (async () => {
       if (user) {
         try {
-          const idToken = await user.getIdToken();
+          const idToken = await retrieveIdToken(user);
           const { data } = await getOrders({ authToken: idToken });
           setOrders(formatOrdersList(data));
           setIsLoading(false);
@@ -109,6 +110,14 @@ const Orders = () => {
         <TableList>
           <TabHead
             headings={['Customer', 'Address', 'Order title', 'Booking Date']}
+          />
+          <TabRow
+            items={['Customer A', 'Address', 'Order title', 'Booking Date']}
+            orderId={'1'}
+          />
+          <TabRow
+            items={['Customer B', 'Address', 'Order title', 'Booking Date']}
+            orderId={'2'}
           />
           <div>
             {isLoading && <Spinner />}

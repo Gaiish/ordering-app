@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await firestore.collection('users').doc(uid).get();
 
       persistToLS(
-        `oa-customer-${uid}`,
+        `oa-user-${uid}`,
         (userDoc.data() as unknown) as IUserDetails,
       );
     } catch (error) {
@@ -54,11 +54,11 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = firebase.auth().onAuthStateChanged(async (usr) => {
       if (usr) {
         setUser(usr);
-        if (!retrieveFromLS(`@oa-customer-${usr.uid}`)) {
+        if (!retrieveFromLS(`@oa-user-${usr.uid}`)) {
           await getUserDetails(usr);
         }
         setIsLoading(false);
-        router.replace('/orders');
+        // router.replace('/orders');
       } else {
         setIsLoading(false);
         router.replace('/login');
