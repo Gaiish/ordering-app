@@ -6,14 +6,23 @@ module.exports = {
   extends: [
     'airbnb-base',
     'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier',
+    'prettier/@typescript-eslint',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: [
+    '@typescript-eslint',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+  ],
   rules: {
     'prettier/prettier': [
       1,
@@ -25,5 +34,6 @@ module.exports = {
     ],
     ...require('eslint-config-prettier').rules,
     ...require('eslint-config-prettier/@typescript-eslint').rules,
+    'prettier/prettier': 'error',
   },
 };
