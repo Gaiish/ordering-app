@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 
 import useUser, { IUserDetails } from '../../hooks/useUser';
 
-import { retrieveFromLS } from '../../utils/localStorage';
 import Container from '../../components/Container';
 import Spinner from '../../components/Spinner';
 import Button from '../../components/Button';
@@ -14,11 +13,13 @@ import Avatar from '../../components/Avatar';
 import Header from '../../components/Header';
 import EditOrderModal from '../../components/EditOrderModal';
 
-import { Body1, Body2, Heading1, Heading2 } from '../../styles/typography';
-import colors from '../../styles/colors';
+import { retrieveFromLS } from '../../utils/localStorage';
 import retrieveIdToken from '../../utils/retrieveIdToken';
 import { getOrderById } from '../../utils/apiCalls';
 import { IOrder } from '../../utils/app-types';
+
+import { Body1, Body2, Heading1, Heading2 } from '../../styles/typography';
+import colors from '../../styles/colors';
 
 const Main = styled.div`
   display: flex;

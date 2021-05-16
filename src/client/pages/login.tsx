@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -33,6 +34,7 @@ const Login = () => {
     email: '',
     password: '',
   };
+  const router = useRouter();
 
   const onSubmit = useCallback(
     async (values: FormValues, { setSubmitting }) => {
@@ -41,7 +43,8 @@ const Login = () => {
 
       const auth = firebase.auth();
       try {
-        const { user } = await auth.signInWithEmailAndPassword(email, password);
+        await auth.signInWithEmailAndPassword(email, password);
+        router.replace('/orders');
         setSubmitting(false);
       } catch (error) {
         setErrorMsg('Email or password is wrong');
@@ -50,6 +53,10 @@ const Login = () => {
     },
     [],
   );
+
+  useEffect(() => {
+    router.prefetch('/orders');
+  }, []);
 
   return (
     <Container centerContent>
