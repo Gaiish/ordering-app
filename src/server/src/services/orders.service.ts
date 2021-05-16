@@ -1,19 +1,32 @@
 import firebase from '../config/firebase';
 import { INewOrder, IOrder, IOrders } from '../models/order';
+import { QueryParams } from '../routes/ordersRouter';
 
 const firestore = firebase.firestore();
 const ordersColl = firestore.collection('orders');
 
-export const getAllOrders = async (): Promise<IOrders> => {
+export const getAllOrders = async ({
+  before,
+  after,
+}: QueryParams): Promise<IOrders> => {
+  const limit = 5;
   let orders: IOrders = [];
+  let query;
   try {
-    const query = ordersColl.orderBy('bookingDate', 'desc').limit(15); // could add pagination
-    const snapshot = await query.get();
+    if (after) {
+      query = ordersColl.orderBy('uid', 'desc').startAfter(after).limit(limit);
+    } else if (before) {
+      query = ordersColl
+        .orderBy('uid', 'desc')
+        .endBefore(before)
+        .limitToLast(limit);
+    } else {
+      query = ordersColl.orderBy('uid', 'desc').limit(limit);
+    }
 
+    const snapshot = await query.get();
     snapshot.forEach((doc) => {
-      if (doc.data().uid) {
-        orders = [...orders, (doc.data() as unknown) as IOrder];
-      }
+      orders = [...orders, (doc.data() as unknown) as IOrder];
     });
   } catch (error) {
     throw new Error(error);

@@ -5,6 +5,10 @@ const BACKEND_API_URL = process.env.BACKEND_API_URL;
 
 interface requestConfig {
   authToken: string;
+  params?: {
+    before?: string;
+    after?: string;
+  };
 }
 
 const headersConfig = {
@@ -14,12 +18,14 @@ const headersConfig = {
 
 export const getOrders = async ({
   authToken,
+  params,
 }: requestConfig): Promise<AxiosResponse<IOrder[]>> => {
   const res = await axios.get(`${BACKEND_API_URL}/orders`, {
     headers: {
       ...headersConfig,
       Authorization: `Bearer ${authToken}`,
     },
+    params,
   });
   return res.data;
 };

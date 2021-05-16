@@ -8,13 +8,21 @@ import {
 import { IOrder, IOrders } from '../models/order';
 import verifyAuthorization from '../middlewares/authorization';
 
+export interface QueryParams {
+  before?: string;
+  after?: string;
+}
+
 const ordersRouter = express.Router();
 
 ordersRouter.use(verifyAuthorization);
 
-ordersRouter.get('/', async (_, res) => {
+ordersRouter.get('/', async (req, res) => {
+  const { before } = req.query;
+  const { after } = req.query;
+  let orders: IOrders = [];
   try {
-    const orders: IOrders = await getAllOrders();
+    orders = await getAllOrders({ before, after } as QueryParams);
     res.status(200).json({
       status: 200,
       data: orders,

@@ -17,6 +17,7 @@ interface TabRowProps {
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 `;
 
 const TabHeadContainer = styled.div`
@@ -30,7 +31,7 @@ const TabHeading = styled.div`
   padding: 6px;
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 240px;
   font-weight: bold;
   opacity: 0.7;
 `;
@@ -51,7 +52,7 @@ const TabRowItem = styled.div`
   ${Body2};
   padding: 20px 6px;
   align-items: center;
-  width: 200px;
+  width: 240px;
 `;
 
 const ItemWithAvatar = ({ itemName }: { itemName: string }) => (
@@ -61,6 +62,11 @@ const ItemWithAvatar = ({ itemName }: { itemName: string }) => (
   </TabRowItem>
 );
 
+const TabLink = styled.a`
+  text-decoration: none;
+  color: inherit;
+`;
+
 export const TabHead = ({ headings }: TabHeadProps) => (
   <TabHeadContainer>
     {headings.map((heading, index) => (
@@ -68,11 +74,6 @@ export const TabHead = ({ headings }: TabHeadProps) => (
     ))}
   </TabHeadContainer>
 );
-
-const TabLink = styled.a`
-  text-decoration: none;
-  color: inherit;
-`;
 
 export const TabRow = ({
   items: [firstItem, ...rest],

@@ -20,7 +20,7 @@ const AvatarContainer = styled.div<{ size?: number }>`
 `;
 
 const Avatar = ({ itemName, size }: AvatarProps) => {
-  const splitName = itemName.split(' ');
+  const splitName = itemName ? itemName.split(' ') : [''];
   const initials =
     splitName.length > 1 ? splitName[0][0] + splitName[1][0] : splitName[0][0];
 

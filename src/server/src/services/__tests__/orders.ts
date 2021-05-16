@@ -8,7 +8,7 @@ import {
 
 describe('orders service', () => {
   it('getAllOrders should resolve all orders', async () => {
-    const orders: IOrders = await getAllOrders();
+    const orders: IOrders = await getAllOrders({});
     expect(orders).toEqual(expect.arrayContaining(orders));
   });
 
