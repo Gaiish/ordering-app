@@ -9,18 +9,19 @@ export const getAllOrders = async ({
   before,
   after,
 }: QueryParams): Promise<IOrders> => {
+  const limit = 5;
   let orders: IOrders = [];
   let query;
   try {
     if (after) {
-      query = ordersColl.orderBy('uid', 'desc').startAfter(after).limit(20); // could add pagination
+      query = ordersColl.orderBy('uid', 'desc').startAfter(after).limit(limit);
     } else if (before) {
       query = ordersColl
         .orderBy('uid', 'desc')
         .endBefore(before)
-        .limitToLast(20); // could add pagination
+        .limitToLast(limit);
     } else {
-      query = ordersColl.orderBy('uid', 'desc').limit(20); // could add pagination
+      query = ordersColl.orderBy('uid', 'desc').limit(limit);
     }
 
     const snapshot = await query.get();

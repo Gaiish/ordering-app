@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { uid } = user;
     try {
       const userDoc = await firestore.collection('users').doc(uid).get();
-
       persistToLS(
         `oa-user-${uid}`,
         (userDoc.data() as unknown) as IUserDetails,
