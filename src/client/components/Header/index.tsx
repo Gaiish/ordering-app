@@ -20,6 +20,7 @@ const Container = styled.div`
   -webkit-box-shadow: 0 3px 3px -3px #777;
   -moz-box-shadow: 0 3px 3px -3px #777;
   box-shadow: 0 3px 3px -3px #777;
+  z-index: 100;
 `;
 
 const LeftSection = styled.div``;
