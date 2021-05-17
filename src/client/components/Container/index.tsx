@@ -11,12 +11,17 @@ const Container = styled.div<{ centerContent?: boolean }>`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100vw;
   ${({ centerContent }) =>
     centerContent &&
     css`
       justify-content: center;
       align-items: center;
-    `}
+    `};
+`;
+
+export const PageContent = styled.div`
+  margin-left: 240px;
 `;
 
 const ContainerComponent = ({
