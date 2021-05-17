@@ -4,7 +4,7 @@ import SideBar from './';
 describe('SideBar component', () => {
   it('should render correctly', async () => {
     const { getByText } = render(<SideBar />);
-    const itemText = getByText('orders');
+    const itemText = getByText('Orders');
     expect(itemText).toBeInTheDocument();
   });
 });
