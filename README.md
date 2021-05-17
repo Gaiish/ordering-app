@@ -1,12 +1,10 @@
 # Odering app
 
-> Orders management app built with ExpressJs and firebase for the backend, and NextJs for the frontend.
+> Orders management app built with ExpressJs and firebase on the backend, and NextJs on the frontend.
 
-Project link:
+Frontend deployed on Vercel: https://ordering-app.vercel.app/
 
-Backend API Link(deployed on Cloud Run):
-
-- [How To Use](#how-to-use)
+Backend deployed on Cloud Run: https://orderingapp-backend-zypjvigopq-lm.a.run.app
 
 ## How to use
 
@@ -28,14 +26,14 @@ cd src/server
 
 First we need to set up the env variables used in the project.
 
-Move to the server directory, then
-create a `.env` file and add the content of `.env.example` into it.
+Create a `.env` file and add the content of `.env.example` into it.
 
 ```sh
+touch .env
 cp .env.example .env
 ```
 
-Add firebase credentials from your firebase project:
+Add [service account credentials](https://firebase.google.com/docs/admin/setup) from your firebase project:
 
 ```env
 FIREBASE_PROJECT_ID=
@@ -69,13 +67,17 @@ cd src/client
 Same here, create a `.env` file and copy the content of `.env.example`:
 
 ```sh
+touch .env
 cp .env.example .env
 ```
 
-Add firebase web credentials from your project; for the `BACKEND_API_URL`, you can use `http://localhost:5000` or `https://orderingapp-backend-zypjvigopq-lm.a.run.app`
+Add firebase [web config](https://firebase.google.com/docs/web/setup) credentials from your project; for the `BACKEND_API_URL`, you can use:
+
+- `http://localhost:5000` or
+- `https://orderingapp-backend-zypjvigopq-lm.a.run.app`
 
 ```env
-BACKEND_API_URL=
+BACKEND_API_URL=https://orderingapp-backend-zypjvigopq-lm.a.run.app
 FIREBASE_API_KEY=
 FIREBASE_AUTH_DOMAIN=
 FIREBASE_DATABASE_URL=
@@ -96,3 +98,5 @@ yarn install
 ```sh
 yarn dev
 ```
+
+> Running on http://localhost:3000
