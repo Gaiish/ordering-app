@@ -1,4 +1,4 @@
-# Odering app
+# Ordering app
 
 > Orders management app built with ExpressJs and firebase on the backend, and NextJs on the frontend.
 
