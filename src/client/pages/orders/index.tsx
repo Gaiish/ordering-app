@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { format } from 'date-fns';
+import { Plus } from '@styled-icons/bootstrap';
 
 import useUser from '../../hooks/useUser';
 import Header from '../../components/Header';
-import Container from '../../components/Container';
+import Container, { PageContent } from '../../components/Container';
 import { getOrders } from '../../utils/apiCalls';
 import { IOrder } from '../../utils/app-types';
 
@@ -16,6 +17,7 @@ import OrderModal from '../../components/OrderModal';
 import { Heading1 } from '../../styles/typography';
 import { retrieveFromLS } from '../../utils/localStorage';
 import retrieveIdToken from '../../utils/retrieveIdToken';
+import SideBar from '../../components/SideBar';
 
 type OrderList = Array<{
   orderId: string;
@@ -39,7 +41,9 @@ const Title = styled.h1`
 
 const PaginationBtns = styled.div`
   display: flex;
-  justify-content: right;
+  flex-direction: row;
+  float: right;
+  margin-right: 40px;
 `;
 
 const Orders = () => {
@@ -152,44 +156,47 @@ const Orders = () => {
   return (
     <Container>
       <Header username={userDetails ? userDetails.name : ''} />
-      <TitleSection>
-        <Title>Orders</Title>
-        <Button variant="primary" size={150} onClick={toggleModal}>
-          Add new order
-        </Button>
-      </TitleSection>
-      <Main>
-        <TableList>
-          <TabHead
-            headings={['Customer', 'Address', 'Order title', 'Booking Date']}
-          />
-          <div>
-            {isLoading && <Spinner />}
-            {!isLoading &&
-              orders &&
-              orders.map(({ data, orderId }, _) => (
-                <TabRow
-                  items={data}
-                  orderId={orderId}
-                  key={JSON.stringify(_)}
-                />
-              ))}
-          </div>
-        </TableList>
-      </Main>
-
-      {!isLoading && (
-        <PaginationBtns>
-          <Button size={100} onClick={goPrevPage} disabled={pageCount === 0}>
-            Prev
+      <SideBar />
+      <PageContent>
+        <TitleSection>
+          <Title>Orders</Title>
+          <Button variant="primary" size={150} onClick={toggleModal}>
+            Add new order
           </Button>
-          <Button size={100} onClick={goNextPage}>
-            Next
-          </Button>
-        </PaginationBtns>
-      )}
+        </TitleSection>
+        <Main>
+          <TableList>
+            <TabHead
+              headings={['Customer', 'Address', 'Order title', 'Booking Date']}
+            />
+            <div>
+              {isLoading && <Spinner />}
+              {!isLoading &&
+                orders &&
+                orders.map(({ data, orderId }, _) => (
+                  <TabRow
+                    items={data}
+                    orderId={orderId}
+                    key={JSON.stringify(_)}
+                  />
+                ))}
+            </div>
+          </TableList>
+        </Main>
 
-      <OrderModal isModalOpen={isModalOpen} toggleModal={toggleModal} />
+        {!isLoading && (
+          <PaginationBtns>
+            <Button size={100} onClick={goPrevPage} disabled={pageCount === 0}>
+              Prev
+            </Button>
+            <Button size={100} onClick={goNextPage}>
+              Next
+            </Button>
+          </PaginationBtns>
+        )}
+
+        <OrderModal isModalOpen={isModalOpen} toggleModal={toggleModal} />
+      </PageContent>
     </Container>
   );
 };

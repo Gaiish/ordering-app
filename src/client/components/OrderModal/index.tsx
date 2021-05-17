@@ -4,6 +4,7 @@ import Modal from 'styled-react-modal';
 import DatePicker from 'react-datepicker';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import useUser from '../../hooks/useUser';
@@ -63,7 +64,9 @@ const formValidationSchema = Yup.object().shape({
 const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
   const [date, setDate] = useState(new Date());
   const [orderCreationSuccess, setOrderCreationSuccess] = useState(false);
+  const [newOrderId, setNewOrderId] = useState<string | null>(null);
   const { user } = useUser();
+  const router = useRouter();
 
   const initialValues: FormValues = {
     title: '',
@@ -98,6 +101,7 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
           const res = await createOrder(newOrder, { authToken });
           if (res.status === 201) {
             setOrderCreationSuccess(true);
+            setNewOrderId(res.data.orderId);
           }
           setIsSubmitting(false);
         } catch (error) {
@@ -109,13 +113,17 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
     [],
   );
 
+  const viewCreatedOrder = useCallback(() => {
+    if (newOrderId) {
+      router.push(`/orders/${newOrderId}`);
+    }
+  }, [newOrderId]);
+
   return (
     <Container
       isOpen={isModalOpen}
       onBackgroundClick={toggleModal}
       onEscapeKeydown={toggleModal}>
-      {orderCreationSuccess && <Success />}
-
       {!orderCreationSuccess && (
         <>
           <ModalTitle>New Order</ModalTitle>
@@ -207,6 +215,15 @@ const OrderModal = ({ isModalOpen, toggleModal }: OrderModalProps) => {
               </form>
             )}
           </Formik>
+        </>
+      )}
+
+      {orderCreationSuccess && (
+        <>
+          <Success />
+          <Button onClick={viewCreatedOrder} variant="orange">
+            View order
+          </Button>
         </>
       )}
     </Container>

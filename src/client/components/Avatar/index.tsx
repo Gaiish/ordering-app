@@ -14,7 +14,7 @@ const AvatarContainer = styled.div<{ size?: number }>`
   align-items: center;
   justify-content: center;
   background-color: ${colors.orange};
-  margin: 0 5px 0 5px;
+  margin: 0 8px 0 8px;
   color: #fff;
   font-size: ${({ size }) => (size ? `${(size * 10 * 3) / 4}px` : `16px`)};
 `;

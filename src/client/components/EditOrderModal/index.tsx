@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import Modal from 'styled-react-modal';
 import DatePicker from 'react-datepicker';
+import { useRouter } from 'next/router';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import Input from '../Input';
@@ -38,6 +39,7 @@ const EditOrderModal = ({
   const [loading, setIsLoading] = useState(false);
   const [orderUpdateSuccess, setOrderUpdateSuccess] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const save = async () => {
     setIsLoading(true);
@@ -62,12 +64,15 @@ const EditOrderModal = ({
     }
   };
 
+  const viewUpdatedOrder = useCallback(() => {
+    router.reload();
+  }, []);
+
   return (
     <Container
       isOpen={isModalOpen}
       onBackgroundClick={toggleModal}
       onEscapeKeydown={toggleModal}>
-      {orderUpdateSuccess && <Success />}
       {!orderUpdateSuccess && (
         <>
           <h1>Update Order</h1>
@@ -88,6 +93,15 @@ const EditOrderModal = ({
           {loading && <Spinner />}
           <Button variant="primary" onClick={save}>
             Confirm
+          </Button>
+        </>
+      )}
+
+      {orderUpdateSuccess && (
+        <>
+          <Success />
+          <Button onClick={viewUpdatedOrder} variant="orange">
+            View order
           </Button>
         </>
       )}

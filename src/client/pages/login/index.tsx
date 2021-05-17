@@ -1,15 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import firebase from '../config/firebase';
+import Lottie from 'react-lottie';
 
-import Container from '../components/Container';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Spinner from '../components/Spinner';
-import ErrorText from '../components/ErrorText';
-import { Title1 } from '../styles/typography';
+import firebase from '../../config/firebase';
+import loginAnim from './lottie-login.json';
+
+import Container from '../../components/Container';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import Spinner from '../../components/Spinner';
+import ErrorText from '../../components/ErrorText';
+import { Title1 } from '../../styles/typography';
 
 interface FormValues {
   email: string;
@@ -33,6 +37,7 @@ const Login = () => {
     email: '',
     password: '',
   };
+  const router = useRouter();
 
   const onSubmit = useCallback(
     async (values: FormValues, { setSubmitting }) => {
@@ -41,7 +46,8 @@ const Login = () => {
 
       const auth = firebase.auth();
       try {
-        const { user } = await auth.signInWithEmailAndPassword(email, password);
+        await auth.signInWithEmailAndPassword(email, password);
+        router.replace('/orders');
         setSubmitting(false);
       } catch (error) {
         setErrorMsg('Email or password is wrong');
@@ -51,8 +57,24 @@ const Login = () => {
     [],
   );
 
+  useEffect(() => {
+    router.prefetch('/orders');
+  }, []);
+
   return (
     <Container centerContent>
+      <Lottie
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: loginAnim,
+          rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+          },
+        }}
+        height={180}
+        width={180}
+      />
       <LoginTitle>Log in</LoginTitle>
       <Formik
         initialValues={initialValues}
