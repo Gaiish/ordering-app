@@ -19,6 +19,11 @@ export interface IOrder {
   uid: string;
 }
 
+export interface IOderUpdate {
+  title: string;
+  bookingDate: number;
+}
+
 export type INewOrder = Omit<IOrder, 'uid'>;
 
 export type IOrders = Array<IOrder>;

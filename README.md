@@ -6,6 +6,12 @@ Frontend deployed on Vercel: https://ordering-app.vercel.app/
 
 Backend deployed on Cloud Run: https://orderingapp-backend-zypjvigopq-lm.a.run.app
 
+---
+
+- [How to use](how-to-use)
+- [Running tests](running-tests)
+- [Tech Stack](tech-stack)
+
 ## How to use
 
 Clone the repo:
@@ -100,3 +106,34 @@ yarn dev
 ```
 
 > Running on http://localhost:3000
+
+## Running tests
+
+### Backend
+
+Install [Firebase tools](https://firebase.google.com/docs/rules/emulator-setup) to be able to run the emulator suite.
+
+```sh
+npm i -g firebase-tools
+```
+
+Run the tests:
+
+```sh
+cd src/server
+yarn test
+```
+
+### Frontend
+
+Run tests:
+
+```sh
+cd src/client
+yarn test
+```
+
+## Tech Stack
+
+- Backend: ExpressJs, Firebase
+- Frontend: React, NextJs, styled-components
