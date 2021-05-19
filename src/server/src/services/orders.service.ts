@@ -1,9 +1,18 @@
 import firebase from '../config/firebase';
-import { INewOrder, IOrder, IOrders } from '../models/order';
-import { QueryParams } from '../routes/ordersRouter';
+import {
+  INewOrder,
+  IOrder,
+  IOrders,
+  IOderUpdate,
+} from '../interfaces/order.interface';
 
 const firestore = firebase.firestore();
 const ordersColl = firestore.collection('orders');
+
+export interface QueryParams {
+  before?: string;
+  after?: string;
+}
 
 export const getAllOrders = async ({
   before,
@@ -62,7 +71,7 @@ export const getOrderById = async (
 
 export const updateOrder = async (
   orderId: string,
-  data: Partial<IOrder>,
+  data: IOderUpdate,
 ): Promise<void> => {
   try {
     await ordersColl.doc(orderId).update(data);

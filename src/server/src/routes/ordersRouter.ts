@@ -4,14 +4,10 @@ import {
   createOrder,
   getOrderById,
   updateOrder,
+  QueryParams,
 } from '../services/orders.service';
-import { IOrder, IOrders } from '../models/order';
+import { IOrder, IOrders } from '../interfaces/order.interface';
 import verifyAuthorization from '../middlewares/authorization';
-
-export interface QueryParams {
-  before?: string;
-  after?: string;
-}
 
 const ordersRouter = express.Router();
 
