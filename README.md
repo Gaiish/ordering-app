@@ -8,9 +8,9 @@ Backend deployed on Cloud Run: https://orderingapp-backend-zypjvigopq-lm.a.run.a
 
 ---
 
-- [How to use](how-to-use)
-- [Running tests](running-tests)
-- [Tech Stack](tech-stack)
+- [How to use](#how-to-use)
+- [Running tests](#running-tests)
+- [Tech Stack](#tech-stack)
 
 ## How to use
 
