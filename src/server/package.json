@@ -6,7 +6,7 @@
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/",
     "start": "tsc & node dist/",
     "build": "tsc",
-    "test": "firebase emulators:exec --project ordering-app 'jest --detectOpenHandles'"
+    "test": "firebase emulators:exec 'jest --detectOpenHandles'"
   },
   "dependencies": {
     "cors": "^2.8.5",
