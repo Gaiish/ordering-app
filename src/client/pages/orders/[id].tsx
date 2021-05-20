@@ -4,34 +4,42 @@ import { useRouter } from 'next/router';
 import { Calendar2Date, GeoAlt } from '@styled-icons/bootstrap/';
 import { format } from 'date-fns';
 
-import useUser, { IUserDetails } from '../../hooks/useUser';
+import useUser, { IUserDetails } from 'hooks/useUser';
+import useSidebarToggle from 'hooks/useSidebarToggle';
 
-import Container, { PageContent } from '../../components/Container';
-import Spinner from '../../components/Spinner';
-import Button from '../../components/Button';
-import Avatar from '../../components/Avatar';
-import Header from '../../components/Header';
-import EditOrderModal from '../../components/EditOrderModal';
+import Container, { PageContent } from 'components/Container';
+import Spinner from 'components/Spinner';
+import Button from 'components/Button';
+import Avatar from 'components/Avatar';
+import Header from 'components/Header';
+import EditOrderModal from 'components/EditOrderModal';
+import SideBar from 'components/SideBar';
 
-import { retrieveFromLS } from '../../utils/localStorage';
-import retrieveIdToken from '../../utils/retrieveIdToken';
-import { getOrderById } from '../../utils/apiCalls';
-import { IOrder } from '../../utils/app-types';
+import { retrieveFromLS } from 'utils/localStorage';
+import retrieveIdToken from 'utils/retrieveIdToken';
+import { getOrderById } from 'utils/apiCalls';
+import { IOrder } from 'utils/app-types';
 
-import { Body1, Body2, Heading1, Heading2 } from '../../styles/typography';
-import colors from '../../styles/colors';
-import SideBar from '../../components/SideBar';
+import { Body1, Body2, Heading1, Heading2 } from 'styles/typography';
+import colors from 'styles/colors';
 
 const Main = styled.div`
   display: flex;
-  margin: 0px 50px 0 50px;
+  margin: 0 3rem 0 3rem;
   flex-direction: row;
+  @media screen and (max-width: 767px) {
+    margin: 0 1.2rem 1.5rem 1.2rem;
+    flex-direction: column;
+  }
 `;
 
 const TitleSection = styled.div`
-  margin: 80px 50px 10px 54px;
+  margin: 80px 1.2rem 10px 54px;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 767px) {
+    margin: 80px 0.5rem 10px 1.2rem;
+  }
 `;
 
 const Title = styled.h1`
@@ -99,6 +107,7 @@ const OrderDetails = () => {
   const [order, setOrder] = useState<IOrder | null>(null);
   const { user } = useUser();
   const router = useRouter();
+  const [isSidebarVisible, toggleSidebar] = useSidebarToggle();
   const { id } = router.query;
 
   const userDetails: IUserDetails = useMemo(
@@ -138,8 +147,11 @@ const OrderDetails = () => {
 
   return (
     <Container>
-      <Header username={userDetails ? userDetails.name : ''} />
-      <SideBar />
+      <Header
+        username={userDetails ? userDetails.name : ''}
+        toggleSidebar={toggleSidebar}
+      />
+      <SideBar isVisible={isSidebarVisible} />
       <PageContent>
         <TitleSection>
           <Title>Order Details</Title>

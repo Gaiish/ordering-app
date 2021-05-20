@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import { List } from '@styled-icons/bootstrap/';
 
-import { Body1, Heading2 } from '../../styles/typography';
+import { Body1, Heading2 } from 'styles/typography';
 
 interface HeaderProps {
   username: string;
+  toggleSidebar?: () => void;
 }
 
 const Container = styled.div`
@@ -50,19 +52,31 @@ const UserName = styled.h1`
   ${Body1};
   margin-left: 10px;
   opacity: 0.7;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 
-const Header = ({ username }: HeaderProps) => {
+const MenuBtn = styled(List)`
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: inline;
+    margin-right: 10px;
+  }
+`;
+
+const Header = ({ username, toggleSidebar }: HeaderProps) => {
   return (
     <Container>
       <LeftSection>
+        <MenuBtn size={28} onClick={toggleSidebar} />
         <Link href="/">
           <AppName>ORDERING APP</AppName>
         </Link>
       </LeftSection>
       <RightSection>
         <UserAvatar
-          src="/avatar.jpeg"
+          src="/avatar.png"
           height={36}
           width={36}
           alt="Profile pic"

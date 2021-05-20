@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import Avatar from '../Avatar';
-import { Body1, Body2 } from '../../styles/typography';
+import { Body1, Body2 } from 'styles/typography';
 
 interface TabHeadProps {
   headings: string[];
@@ -20,6 +20,7 @@ const TableContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
   overflow-x: auto;
+  flex-wrap: wrap;
 `;
 
 const TabHeadContainer = styled.div`

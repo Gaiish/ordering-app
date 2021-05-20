@@ -5,15 +5,15 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Lottie from 'react-lottie';
 
-import firebase from '../../config/firebase';
+import firebase from 'config/firebase';
 import loginAnim from './lottie-login.json';
 
-import Container from '../../components/Container';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import Spinner from '../../components/Spinner';
-import ErrorText from '../../components/ErrorText';
-import { Title1 } from '../../styles/typography';
+import Container from 'components/Container';
+import Button from 'components/Button';
+import Input from 'components/Input';
+import Spinner from 'components/Spinner';
+import ErrorText from 'components/ErrorText';
+import { Title1 } from 'styles/typography';
 
 interface FormValues {
   email: string;

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Body1 } from '../../styles/typography';
-import colors from '../../styles/colors';
+import colors from 'styles/colors';
 
 interface ButtonProps {
   variant?: 'primary' | 'danger' | 'orange';

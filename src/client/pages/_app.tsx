@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import { createGlobalStyle } from 'styled-components';
 import { ModalProvider } from 'styled-react-modal';
-import { AuthProvider } from '../hooks/useUser';
+import { AuthProvider } from 'hooks/useUser';
 
 const GlobalStyle = createGlobalStyle`
   body {

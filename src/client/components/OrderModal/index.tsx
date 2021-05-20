@@ -7,18 +7,17 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import useUser from '../../hooks/useUser';
-import { IAddress, ICustomer, INewOrder } from '../../utils/app-types';
-import { retrieveFromLS } from '../../utils/localStorage';
-import { createOrder } from '../../utils/apiCalls';
+import useUser from 'hooks/useUser';
+import { IAddress, ICustomer, INewOrder } from 'utils/app-types';
+import { retrieveFromLS } from 'utils/localStorage';
+import { createOrder } from 'utils/apiCalls';
+import retrieveIdToken from 'utils/retrieveIdToken';
+import { Heading1 } from 'styles/typography';
 import Button from '../Button';
 import Input from '../Input';
 import ErrorText from '../ErrorText';
 import Spinner from '../Spinner';
 import Success from '../Success';
-
-import { Heading1 } from '../../styles/typography';
-import retrieveIdToken from '../../utils/retrieveIdToken';
 
 interface OrderModalProps {
   isModalOpen: boolean;
@@ -47,6 +46,7 @@ const Container = Modal.styled`
 const ModalTitle = styled.div`
   ${Heading1};
   margin-bottom: 10px;
+  margin-top: 25px; ;
 `;
 
 const ButtonGroup = styled.div`
