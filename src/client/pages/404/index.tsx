@@ -1,7 +1,7 @@
 import Lottie from 'react-lottie';
 import { useRouter } from 'next/router';
-import Button from '../../components/Button';
-import Container from '../../components/Container';
+import Button from 'components/Button';
+import Container from 'components/Container';
 import pageNotFoundLottieData from './lottie-404.json';
 
 const PageNotFound = () => {

@@ -4,14 +4,14 @@ import DatePicker from 'react-datepicker';
 import { useRouter } from 'next/router';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import useUser from 'hooks/useUser';
 import Input from '../Input';
 import Button from '../Button';
-import { IOrder } from '../../utils/app-types';
-import retrieveIdToken from '../../utils/retrieveIdToken';
-import useUser from '../../hooks/useUser';
-import { updateOrder } from '../../utils/apiCalls';
 import Success from '../Success';
 import Spinner from '../Spinner';
+import { IOrder } from 'utils/app-types';
+import retrieveIdToken from 'utils/retrieveIdToken';
+import { updateOrder } from 'utils/apiCalls';
 
 interface EditModalProps {
   isModalOpen: boolean;

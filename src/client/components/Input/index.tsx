@@ -1,7 +1,7 @@
 import { ForwardedRef, forwardRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { Body1, Body2 } from '../../styles/typography';
-import colors from '../../styles/colors';
+import { Body1, Body2 } from 'styles/typography';
+import colors from 'styles/colors';
 
 type InputProps = InputHTMLAttributes<{}> & {
   label?: string;

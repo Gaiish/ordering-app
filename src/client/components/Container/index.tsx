@@ -22,6 +22,9 @@ const Container = styled.div<{ centerContent?: boolean }>`
 
 export const PageContent = styled.div`
   margin-left: 240px;
+  @media screen and (max-width: 767px) {
+    margin-left: 0;
+  }
 `;
 
 const ContainerComponent = ({

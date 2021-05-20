@@ -8,11 +8,10 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 
-import Container from '../components/Container';
-import Spinner from '../components/Spinner';
-
-import firebase from '../config/firebase';
-import { persistToLS, retrieveFromLS } from '../utils/localStorage';
+import firebase from 'config/firebase';
+import Container from 'components/Container';
+import Spinner from 'components/Spinner';
+import { persistToLS, retrieveFromLS } from 'utils/localStorage';
 
 interface IAuthContext {
   user: firebase.User | null;

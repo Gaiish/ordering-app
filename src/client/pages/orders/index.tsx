@@ -1,23 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { format } from 'date-fns';
-import { Plus } from '@styled-icons/bootstrap';
 
-import useUser from '../../hooks/useUser';
-import Header from '../../components/Header';
-import Container, { PageContent } from '../../components/Container';
-import { getOrders } from '../../utils/apiCalls';
-import { IOrder } from '../../utils/app-types';
+import useUser from 'hooks/useUser';
+import useSidebarToggle from 'hooks/useSidebarToggle';
+import Header from 'components/Header';
+import Container, { PageContent } from 'components/Container';
+import TableList, { TabHead, TabRow } from 'components/TableList';
+import Spinner from 'components/Spinner';
+import Button from 'components/Button';
+import OrderModal from 'components/OrderModal';
+import SideBar from 'components/SideBar';
+import { getOrders } from 'utils/apiCalls';
+import { IOrder } from 'utils/app-types';
+import { retrieveFromLS } from 'utils/localStorage';
+import retrieveIdToken from 'utils/retrieveIdToken';
 
-import TableList, { TabHead, TabRow } from '../../components/TableList';
-import Spinner from '../../components/Spinner';
-import Button from '../../components/Button';
-import OrderModal from '../../components/OrderModal';
-
-import { Heading1 } from '../../styles/typography';
-import { retrieveFromLS } from '../../utils/localStorage';
-import retrieveIdToken from '../../utils/retrieveIdToken';
-import SideBar from '../../components/SideBar';
+import { Heading1 } from 'styles/typography';
 
 type OrderList = Array<{
   orderId: string;
@@ -26,13 +25,19 @@ type OrderList = Array<{
 
 const Main = styled.div`
   display: flex;
-  margin: 0 50px 0 50px;
+  margin: 0 3rem 0 3rem;
+  @media screen and (max-width: 767px) {
+    margin: 0 1.2rem 0 1.2rem;
+  }
 `;
 
 const TitleSection = styled.div`
-  margin: 80px 50px 10px 54px;
+  margin: 80px 1.2rem 10px 54px;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 767px) {
+    margin: 80px 0.5rem 10px 1.2rem;
+  }
 `;
 
 const Title = styled.h1`
@@ -43,7 +48,11 @@ const PaginationBtns = styled.div`
   display: flex;
   flex-direction: row;
   float: right;
-  margin-right: 40px;
+  margin-right: 1rem;
+  margin-bottom: 10px;
+  @media screen and (max-width: 767px) {
+    margin-right: 0.6rem;
+  }
 `;
 
 const Orders = () => {
@@ -54,6 +63,7 @@ const Orders = () => {
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const { user } = useUser();
+  const [isSidebarVisible, toggleSideBar] = useSidebarToggle();
 
   const userDetails = useMemo(
     () => user && retrieveFromLS(`oa-user-${user.uid}`),
@@ -155,8 +165,11 @@ const Orders = () => {
 
   return (
     <Container>
-      <Header username={userDetails ? userDetails.name : ''} />
-      <SideBar />
+      <Header
+        username={userDetails ? userDetails.name : ''}
+        toggleSidebar={toggleSideBar}
+      />
+      <SideBar isVisible={isSidebarVisible} />
       <PageContent>
         <TitleSection>
           <Title>Orders</Title>
@@ -165,23 +178,26 @@ const Orders = () => {
           </Button>
         </TitleSection>
         <Main>
-          <TableList>
-            <TabHead
-              headings={['Customer', 'Address', 'Order title', 'Booking Date']}
-            />
-            <div>
-              {isLoading && <Spinner />}
-              {!isLoading &&
-                orders &&
-                orders.map(({ data, orderId }, _) => (
-                  <TabRow
-                    items={data}
-                    orderId={orderId}
-                    key={JSON.stringify(_)}
-                  />
-                ))}
-            </div>
-          </TableList>
+          {isLoading && <Spinner />}
+          {!isLoading && orders && (
+            <TableList>
+              <TabHead
+                headings={[
+                  'Customer',
+                  'Address',
+                  'Order title',
+                  'Booking Date',
+                ]}
+              />
+              {orders.map(({ data, orderId }, _) => (
+                <TabRow
+                  items={data}
+                  orderId={orderId}
+                  key={JSON.stringify(_)}
+                />
+              ))}
+            </TableList>
+          )}
         </Main>
 
         {!isLoading && (

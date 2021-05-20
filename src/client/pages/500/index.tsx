@@ -1,7 +1,7 @@
 import Lottie from 'react-lottie';
 import { useRouter } from 'next/router';
-import Button from '../../components/Button';
-import Container from '../../components/Container';
+import Button from 'components/Button';
+import Container from 'components/Container';
 import serverErrorLottieData from './lottie-500.json';
 
 const ServerErrorPage = () => {

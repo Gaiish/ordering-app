@@ -2,10 +2,14 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import Image from 'next/image';
 import { CartCheckFill, GearFill, PeopleFill } from '@styled-icons/bootstrap/';
-import colors from '../../styles/colors';
-import { Body1 } from '../../styles/typography';
+import colors from 'styles/colors';
+import { Body1 } from 'styles/typography';
 
-const Container = styled.div`
+interface SideBarProps {
+  isVisible?: boolean;
+}
+
+const Container = styled.div<{ isVisible?: boolean }>`
   height: 100vh;
   width: 240px;
   display: flex;
@@ -15,6 +19,12 @@ const Container = styled.div`
   left: 0;
   margin-right: 10px;
   flex-direction: column;
+  position: fixed;
+
+  @media screen and (max-width: 767px) {
+    display: ${({ isVisible }) => (isVisible ? `flex` : `none`)};
+    z-index: 10;
+  }
 `;
 
 const Item = styled.a<{ active?: boolean }>`
@@ -69,11 +79,16 @@ const ImageContainer = styled.div`
   justify-content: center;
 `;
 
-const SideBar = () => {
+const SideBar = ({ isVisible }: SideBarProps) => {
   return (
-    <Container>
+    <Container isVisible={isVisible}>
       <ImageContainer>
-        <Image src="/orders.svg" height={200} width={200} />
+        <Image
+          src="/orders.svg"
+          height={200}
+          width={200}
+          alt="dashboard-image"
+        />
       </ImageContainer>
       <Link href="/orders/">
         <Item active>
